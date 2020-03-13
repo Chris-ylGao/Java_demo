@@ -1,0 +1,27 @@
+The difference between udp and tcp model in java:
+1. Socket:
+   * UDP:
+        Sender: DatagramSocket()
+        Receiver: DatagramSocket(int portNumber) ;
+   * TCP
+        Client: Socket(String host, int portNumber);
+        Server: ServerSocket(int portNumber);
+2. Data:
+    * UDP: send and receive message by DatagramPacket, and there is no need for sender and receiver to build connection.
+           Sender: DatagramPacket(byte[], length, String host, int portNumber); // the byte[] contains message to be sent
+                   DatagramSocket.send(DatagramPacket);
+                   close();
+           Receiver: DatagramPacket(byte[], length); // the byte[] is empty
+                     DatagramSocket.receiver(DatagramPacket);
+                     DatagramPacket.getData(); // create buffer for received data
+                     DatagramPacket.getLength(); // get the actual data length
+                     close();
+
+    * TCP: send message by outputStream and receive message by InputStream, and before receiving message, connection should be built first.
+            Client: OutputStream() = Socket.getOutputStream();
+                    OutputStream.write(byte[]); // the byte[] contains data to be sent
+                    Socket.close();
+            Server: ServerSocket.accept(); // Accept a socket;
+                    InputStream = Socket.getInputStream();
+                    InputStream.read(byte[]) // empty byte[] to receive data and return the length of message(int)
+                    ServerSocket.close();
